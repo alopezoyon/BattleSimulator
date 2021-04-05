@@ -4,6 +4,7 @@ public class ObjetoAtaque extends Objeto{
 
 	public ObjetoAtaque(int pAtaque) {
 		super(pAtaque, 0, 0);
+		
 	}
 	
 	@Override
