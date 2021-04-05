@@ -43,14 +43,16 @@ public class Batalla {
 		
 		this.equipo1.imprimirEquipo();*/
 		
-		this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(1);
-		this.equipo1.imprimirEquipo();
-		this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(2);
-		this.equipo2.imprimirEquipo();
+		//this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(1);
+		//this.equipo1.imprimirEquipo();
+		//this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(2);
+		//this.equipo2.imprimirEquipo();
+		
+		Teclado.getTeclado().leerString("Esto es una prueba");
 		
 		boolean terminado = false;
 		
-		while(!terminado) {
+		/*while(!terminado) {
 			if(this.equipo1.alguienVivo()) {
 				this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
 				
@@ -62,7 +64,7 @@ public class Batalla {
 			}else {
 				terminado = true;
 			}
-		}
+		}*/
 		
 	}
 	

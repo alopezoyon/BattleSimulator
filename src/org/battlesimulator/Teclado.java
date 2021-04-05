@@ -7,9 +7,10 @@ public class Teclado {
 	private Scanner sc;
 	
 	private Teclado() {
+		this.sc = new Scanner(System.in);
 	}
 	
-	public Teclado getTeclado() {
+	public static Teclado getTeclado() {
 		if(Teclado.miTeclado == null) { Teclado.miTeclado = new Teclado(); }
 		return Teclado.miTeclado;
 	}
