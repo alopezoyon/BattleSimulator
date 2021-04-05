@@ -46,7 +46,7 @@ public class ListaInventario {
 			miObjeto = itr.next();
 			
 			if(miObjeto instanceof ObjetoDefensa) {
-				computedProtection += miObjeto.getAtaque();
+				computedProtection += miObjeto.getDefensa();
 			}
 		}
 		
@@ -63,10 +63,21 @@ public class ListaInventario {
 			miObjeto = itr.next();
 			
 			if(miObjeto instanceof ObjetoCuracion) {
-				computedHealth += miObjeto.getAtaque();
+				computedHealth += miObjeto.getCuracion();
 			}
 		}
 		
 		return computedHealth;
+	}
+
+	public void imprimirInventario() {
+		Iterator<Objeto> itr = this.getIterator();
+		Objeto miObjeto = null;
+		
+		while(itr.hasNext()) {
+			miObjeto = itr.next();
+			miObjeto.imprimirObjeto();
+		}
+		System.out.println("(" + this.lista.size() + " objetos)");
 	}
 }

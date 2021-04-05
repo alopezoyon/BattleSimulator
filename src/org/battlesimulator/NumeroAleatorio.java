@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class NumeroAleatorio {
 	
-	public int obtenerNumAleatorio(int pNumMax) {
-		Random r = new Random(pNumMax);
-		int num = r.nextInt() + 1;
+	public static int obtenerNumAleatorio(int pNumMax) {
+		Random r = new Random();
+		int num = r.nextInt(pNumMax) + 1;
 		return num;
 	}
 }

@@ -8,8 +8,8 @@ public class Batalla {
 	
 	//constructora (privada MAE)
 	private Batalla(){
-		this.equipo1 = new Equipo();
-		this.equipo2 = new Equipo();
+		this.equipo1 = new Equipo("Los Colosos");
+		this.equipo2 = new Equipo("Los Fuertes");
 	}
 	
 	//getBatalla patron singleton
@@ -19,7 +19,7 @@ public class Batalla {
 	}
 	
 	public static void main(String args[]) {
-		Batalla.getBatalla().iniciarBatallaAutomatica();
+		Batalla.getBatalla().iniciarBatalla();
 	}
 	
 	public void iniciarBatalla() {
@@ -27,12 +27,26 @@ public class Batalla {
 	}
 	
 	private void iniciarBatallaAutomatica() {
-		Jugador j11 = new Jugador(11, 10, 3, 2);
+		/*Jugador j11 = new Jugador(11, 10, 3, 2);
 		Jugador j12 = new Jugador(12, 15, 3, 2);
+		ListaInventario inv1 = new ListaInventario();
+		inv1.anadirObjeto(new ObjetoAtaque(10));
+		inv1.anadirObjeto(new ObjetoDefensa(10));
+		inv1.anadirObjeto(new ObjetoCuracion(10));
+		j12.setInventario(inv1);
+		
 		Jugador j23 = new Jugador(23, 18, 4, 3);
+		
 		this.equipo1.anadirJugador(j11);
 		this.equipo1.anadirJugador(j12);
 		this.equipo2.anadirJugador(j23);
+		
+		this.equipo1.imprimirEquipo();*/
+		
+		this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(1);
+		this.equipo1.imprimirEquipo();
+		this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(2);
+		this.equipo2.imprimirEquipo();
 		
 		boolean terminado = false;
 		
@@ -52,8 +66,8 @@ public class Batalla {
 		
 	}
 	
-	private void iniciarBatallaConDecision() {
+	/*private void iniciarBatallaConDecision() {
 		
-	}
+	}*/
 	
 }

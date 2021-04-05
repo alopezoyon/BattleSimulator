@@ -1,14 +1,15 @@
 package org.battlesimulator;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Equipo {
 	//La funcionalidad de Equipo es similar a la de una lista de jugadores
 	private ArrayList<Jugador> lista;
+	private String nombre;//para imprimir nada mas
 	
-	public Equipo() {
+	public Equipo(String pNombre) {
 		this.lista = new ArrayList<Jugador>();
+		this.nombre = pNombre;
 	}
 	
 	//Devuelve el iterador de la lista de jugadores
@@ -78,7 +79,7 @@ public class Equipo {
 							
 							jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
 						}
-						
+						 
 						jugadorE1.atacarJugador(jugadorE2);
 						index++;
 						
@@ -94,5 +95,22 @@ public class Equipo {
 			System.out.println("Este equipo esta debilitado, no puede atacar");
 		}
 		
+	}
+	
+	public void imprimirEquipo() {
+		System.out.println("El equipo " + this.nombre + " cuenta con " + this.numeroDeIntegrantes() + " integrantes: ");
+		
+		Iterator<Jugador> itr = this.getIterator();
+		Jugador miJugador = null;
+		int index = 1;
+		while (itr.hasNext()) {
+			miJugador = itr.next();
+			System.out.print(index + ") ");
+			miJugador.imprimirJugador();
+			System.out.println("");
+			index++;
+		}
+		
+		System.out.print("");
 	}
 }
