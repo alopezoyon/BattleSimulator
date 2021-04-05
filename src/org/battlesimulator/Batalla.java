@@ -8,6 +8,8 @@ public class Batalla {
 	
 	//constructora (privada MAE)
 	private Batalla(){
+		this.equipo1 = new Equipo();
+		this.equipo2 = new Equipo();
 	}
 	
 	//getBatalla patron singleton
@@ -16,8 +18,19 @@ public class Batalla {
 		return Batalla.miBatalla;
 	}
 	
+	public static void main(String args[]) {
+		Batalla.getBatalla().iniciarBatalla();
+	}
+	
 	public void iniciarBatalla() {
+		Jugador j11 = new Jugador(11, 10, 3, 2);
+		Jugador j12 = new Jugador(12, 15, 3, 2);
+		Jugador j23 = new Jugador(23, 18, 4, 3);
+		this.equipo1.anadirJugador(j11);
+		this.equipo1.anadirJugador(j12);
+		this.equipo2.anadirJugador(j23);
 		
+		this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
 	}
 	
 }
