@@ -19,10 +19,14 @@ public class Batalla {
 	}
 	
 	public static void main(String args[]) {
-		Batalla.getBatalla().iniciarBatalla();
+		Batalla.getBatalla().iniciarBatallaAutomatica();
 	}
 	
 	public void iniciarBatalla() {
+		this.iniciarBatallaAutomatica();
+	}
+	
+	private void iniciarBatallaAutomatica() {
 		Jugador j11 = new Jugador(11, 10, 3, 2);
 		Jugador j12 = new Jugador(12, 15, 3, 2);
 		Jugador j23 = new Jugador(23, 18, 4, 3);
@@ -30,7 +34,26 @@ public class Batalla {
 		this.equipo1.anadirJugador(j12);
 		this.equipo2.anadirJugador(j23);
 		
-		this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
+		boolean terminado = false;
+		
+		while(!terminado) {
+			if(this.equipo1.alguienVivo()) {
+				this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
+				
+				if(this.equipo2.alguienVivo()) {
+					this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
+				}else {
+					terminado = true;
+				}
+			}else {
+				terminado = true;
+			}
+		}
+		
+	}
+	
+	private void iniciarBatallaConDecision() {
+		
 	}
 	
 }
