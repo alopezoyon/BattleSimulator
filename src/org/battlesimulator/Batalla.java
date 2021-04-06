@@ -23,36 +23,24 @@ public class Batalla {
 	}
 	
 	public void iniciarBatalla() {
-		this.iniciarBatallaAutomatica();
+		this.iniciarBatallaConDecision();
 	}
 	
 	private void iniciarBatallaAutomatica() {
-		/*Jugador j11 = new Jugador(11, 10, 3, 2);
-		Jugador j12 = new Jugador(12, 15, 3, 2);
-		ListaInventario inv1 = new ListaInventario();
-		inv1.anadirObjeto(new ObjetoAtaque(10));
-		inv1.anadirObjeto(new ObjetoDefensa(10));
-		inv1.anadirObjeto(new ObjetoCuracion(10));
-		j12.setInventario(inv1);
-		
-		Jugador j23 = new Jugador(23, 18, 4, 3);
-		
-		this.equipo1.anadirJugador(j11);
-		this.equipo1.anadirJugador(j12);
-		this.equipo2.anadirJugador(j23);
-		
-		this.equipo1.imprimirEquipo();*/
-		
-		//this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(1);
-		//this.equipo1.imprimirEquipo();
-		//this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio(2);
-		//this.equipo2.imprimirEquipo();
-		
-		Teclado.getTeclado().leerString("Esto es una prueba");
+		System.out.println("---CONTENDIENTES---");
+		this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+		this.equipo1.imprimirEquipo();
+		this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+		this.equipo2.imprimirEquipo();
 		
 		boolean terminado = false;
+		System.out.println("---INICIO DE LA BATALLA---");
+		System.out.println("");
+		System.out.println("Equipo1 alguien vivo: " + this.equipo1.alguienVivo());
+		System.out.println("Equipo2 alguien vivo: " + this.equipo2.alguienVivo());
 		
-		/*while(!terminado) {
+		int index = 0;
+		while(!terminado) {
 			if(this.equipo1.alguienVivo()) {
 				this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
 				
@@ -60,16 +48,57 @@ public class Batalla {
 					this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
 				}else {
 					terminado = true;
+					System.out.println("El vencedor es el equipo " + this.equipo1.getNombre());
 				}
 			}else {
 				terminado = true;
+				System.out.println("El vencedor es el equipo " + this.equipo2.getNombre());
 			}
-		}*/
+			index++;
+		}
+		
+		System.out.println("La batalla ha tomado " + index + " rondas");
 		
 	}
 	
-	/*private void iniciarBatallaConDecision() {
+	private void iniciarBatallaConDecision() {
+		System.out.println("---CREACION DE CONTENDIENTES---");
+		/*this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();
+		this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();*/
 		
-	}*/
+		this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+		this.equipo1.imprimirEquipo();
+		this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+		this.equipo2.imprimirEquipo();
+		
+		System.out.println("---INICIO DE LA BATALLA---");
+		int index = 1;
+		boolean terminado = false;
+		
+		while(!terminado) {
+			System.out.println("Ronda numero " + index);
+			
+			if(this.equipo1.alguienVivo()) {
+				this.equipo1.atacarEquipoConDecision(equipo2);
+					
+				if(this.equipo2.alguienVivo()) {
+					this.equipo2.atacarEquipoConDecision(equipo1);					}else {
+					terminado = true;
+					System.out.println("Ha ganado el equipo " + this.equipo1.getNombre() + " porque los del equipo contrario estan debilitados");
+				}
+					
+			}else if(this.equipo2.alguienVivo()){
+				terminado = true;
+				System.out.println("Ha ganado el equipo " + this.equipo2.getNombre() + " porque los del equipo contrario estan debilitados");
+			}else {
+				terminado = true;
+				System.out.println("No ha ganado nadie, todos los jugadores estan debilitados");
+			}
+
+			int accion = Teclado.getTeclado().leerEntero("Seleccione la accion a realizar (1 continuar con otra ronda, otro valor para terminar la batalla");
+			if(accion != 1) { terminado = true; }
+			index++;
+		}
+	}
 	
 }

@@ -2,7 +2,7 @@ package org.battlesimulator;
 
 public class Jugador {
 	//Atributos del jugador
-	private int id;
+	private String nombre;
 	
 	private int vidaMaxima;
 	private int vida;
@@ -11,8 +11,8 @@ public class Jugador {
 	
 	private ListaInventario inventario;
 	
-	public Jugador(int pId, int pVidaMaxima, int pAtaque, int pDefensa) {
-		this.id = pId;
+	public Jugador(String pNombre, int pVidaMaxima, int pAtaque, int pDefensa) {
+		this.nombre = pNombre;
 		this.vidaMaxima = pVidaMaxima;
 		this.vida = pVidaMaxima;
 		this.ataque = pAtaque;
@@ -21,11 +21,11 @@ public class Jugador {
 	}
 	
 	public boolean estaVivo() {
-		return !(this.vida >= 0);
+		return this.vida > 0;
 	}
 	
-	public boolean tieneEsteId(int pId) {
-		return this.id == pId;
+	public String getNombre() {
+		return this.nombre;
 	}
 	
 	public void setInventario(ListaInventario pInventario) {
@@ -49,6 +49,12 @@ public class Jugador {
 		if(this.vida > vidaAntes) {
 			this.vida = vidaAntes;
 		}
+		
+		if(this.vida > 0) {
+			System.out.println("Al jugador " + this.nombre + " le quedan " + this.vida + " puntos de vida");
+		}else {
+			System.out.println("El jugador de id " + this.nombre + " se ha debilitado");
+		}
 	}
 	
 	public void curarVida(int pVida) {
@@ -63,18 +69,29 @@ public class Jugador {
 	
 	public void atacarJugador(Jugador pJugador) {
 		int danoTotal = this.ataque + this.inventario.obtenerDanoObjetos();
+		
+		System.out.println("El jugador " + this.nombre + " ha atacado al jugador " + pJugador.getNombre() + " con " + danoTotal + " puntos de ataque");
 		pJugador.recibirDano(danoTotal);
 	}
 	
 	public void curarJugador(Jugador pJugador) {
 		//Habra que implementarlo de otra forma. Usar solo una venda por ejemplo
 		int vidaTotal = this.inventario.obtenerCuracionObjetos();
+		
+		System.out.println("El jugador " + this.nombre + " ha curado al jugador " + pJugador.getNombre() + " con " + vidaTotal + " puntos de vida");
 		pJugador.curarVida(vidaTotal);
 	}
 	
-	public void imprimirJugador() {
-		System.out.println("El jugador " + this.id + " tiene " + this.vida + " puntos de vida, " + this.ataque + " puntos de ataque y " + this.defensa + " puntos de defensa.");
+	public void imprimirJugadorInventario() {
+		this.imprimirJugador();
 		System.out.println("Además, su inventario esta formado por: ");
 		this.inventario.imprimirInventario();
+	}
+	
+	public void imprimirJugador() {
+		String debilitado = "(debilitado)";
+		if(this.estaVivo()) { debilitado = ""; }
+		
+		System.out.println("El jugador " + this.nombre + " tiene " + this.vida + " puntos de vida, " + this.ataque + " puntos de ataque y " + this.defensa + " puntos de defensa." + debilitado);
 	}
 }

@@ -12,6 +12,10 @@ public class Equipo {
 		this.nombre = pNombre;
 	}
 	
+	public String getNombre() {
+		return this.nombre;
+	}
+	
 	//Devuelve el iterador de la lista de jugadores
 	private Iterator<Jugador> getIterator(){
 		return this.lista.iterator();
@@ -63,29 +67,49 @@ public class Equipo {
 		Jugador jugadorE2 = null;
 		int index = 0;
 		
+		System.out.println("El equipo " + this.nombre + " (" + this.numeroDeIntegrantes() + " integrantes) se dispone a atacar al equipo " + pEquipo2.getNombre() + " (" + pEquipo2.numeroDeIntegrantes() + " integrantes)");
 		if(this.alguienVivo()){
 			while(itr.hasNext() && !terminado) {
 				jugadorE1 = itr.next();
 				
 				if(jugadorE1.estaVivo()) {
-					if(pEquipo2.alguienVivo()) {
-						jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
-							
-						while(!jugadorE2.estaVivo()) {
-							index++;
-							if(index >= pEquipo2.numeroDeIntegrantes()) {
-								index = 0;
-							}
-							
+					int numAleatorio = NumeroAleatorio.obtenerNumAleatorio(2);
+					
+					if(numAleatorio == 1) {
+						//Atacar al otro equipo (si se puede)
+						if(pEquipo2.alguienVivo()) {
 							jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
+								
+							while(!jugadorE2.estaVivo()) {
+								index++;
+								if(index > pEquipo2.numeroDeIntegrantes()) {
+									index = 0;
+								}
+								
+								jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
+							}
+							 
+							jugadorE1.atacarJugador(jugadorE2);
+							
+							index++;
+							
+						}else {
+							System.out.println("El equipo al que se quiere atacar ya esta debilitado");
+							terminado = true;
 						}
-						 
-						jugadorE1.atacarJugador(jugadorE2);
-						index++;
+					}else if(numAleatorio == 2) {
+						//Curar a un miembro de tu equipo
+						Iterator<Jugador> itr2 = this.getIterator();
+						Jugador jugadorMismoEquipo = null;
+						boolean encontrado = false;
 						
-					}else {
-						System.out.println("El equipo al que se quiere atacar ya esta debilitado");
-						terminado = true;
+						while(itr2.hasNext() && !encontrado) {
+							jugadorMismoEquipo = itr2.next();
+							if(jugadorMismoEquipo.estaVivo()) {
+								jugadorE1.curarJugador(jugadorMismoEquipo);
+								encontrado = true;
+							}
+						}
 					}
 				}
 			}
@@ -95,9 +119,89 @@ public class Equipo {
 			System.out.println("Este equipo esta debilitado, no puede atacar");
 		}
 		
+		System.out.println("");
+	}
+	
+	public void atacarEquipoConDecision(Equipo pEquipo){
+		System.out.println("Es el turno del equipo " + this.nombre);
+		
+		Iterator<Jugador> itr = this.getIterator();
+		Jugador miJugador = null;
+		Jugador otroJugador = null;
+		boolean terminado = false;
+		while(!terminado && itr.hasNext()) {
+			miJugador = itr.next();
+			System.out.println("Es el turno del jugador " + miJugador.getNombre());
+			int accion = Teclado.getTeclado().leerEntero("Seleccione la accion a realizar (1 atacar, 2 curar, otro numero para no realizar ninguna accion)");
+			
+			if(accion == 1) {
+				//atacar al otro equipo
+				pEquipo.imprimirOpcionesDeAtaque();
+				System.out.println("Seleccione el jugador a atacar");
+				
+				int seleccion = 0;
+				boolean seleccionado = false;
+				while(!seleccionado) {
+					seleccion = Teclado.getTeclado().leerEntero("");
+					if(seleccion > 0 && seleccion < pEquipo.numeroDeIntegrantes()) { 
+						otroJugador = pEquipo.obtenerJugadorEnPos(seleccion);
+						if(otroJugador.estaVivo()) {
+							seleccionado = true; 
+						}else {
+							System.out.println("No puedes seleccionar un jugador debilitado");
+						}
+					}else {
+						System.out.println("Introduce un valor valido");
+					}
+				}
+				
+				miJugador.atacarJugador(otroJugador);
+				
+				
+			}else if(accion == 2){
+				//Curar a un jugador de tu equipo
+				this.imprimirOpcionesDeAtaque();
+				System.out.println("Seleccione el jugador a curar");
+				
+				int seleccion = 0;
+				boolean seleccionado = false;
+				while(!seleccionado) {
+					seleccion = Teclado.getTeclado().leerEntero("") -1;
+					if(seleccion > 0 && seleccion < this.numeroDeIntegrantes()) { 
+						otroJugador = pEquipo.obtenerJugadorEnPos(seleccion);
+						if(otroJugador.estaVivo()) {
+							seleccionado = true; 
+						}else {
+							System.out.println("No puedes seleccionar un jugador debilitado");
+						}
+					}else {
+						System.out.println("Introduce un valor valido");
+					}
+				}
+				
+				miJugador.curarJugador(otroJugador);
+			}
+		}
+		
+	}
+	
+	private int preguntarAccion() {
+		int accion = 0;
+		boolean terminado = false;
+		while(!terminado) {
+			accion = Teclado.getTeclado().leerEntero("Seleccione la accion a realizar (1 atacar, 2 curar)");
+			if(accion == 1 || accion == 2) { 
+				terminado = true; 
+			}else {
+				System.out.println("Introduce un valor valido");
+			}
+		}
+		
+		return accion;
 	}
 	
 	public void imprimirEquipo() {
+		System.out.println("-");
 		System.out.println("El equipo " + this.nombre + " cuenta con " + this.numeroDeIntegrantes() + " integrantes: ");
 		
 		Iterator<Jugador> itr = this.getIterator();
@@ -106,11 +210,23 @@ public class Equipo {
 		while (itr.hasNext()) {
 			miJugador = itr.next();
 			System.out.print(index + ") ");
-			miJugador.imprimirJugador();
+			miJugador.imprimirJugadorInventario();
 			System.out.println("");
 			index++;
 		}
 		
 		System.out.print("");
+	}
+	
+	public void imprimirOpcionesDeAtaque() {
+		Iterator<Jugador> itr = this.getIterator();
+		Jugador miJugador = null;
+		int index = 1;
+		while(itr.hasNext()) {
+			miJugador = itr.next();
+			System.out.print(index + ") ");
+			miJugador.imprimirJugador();
+			index++;
+		}
 	}
 }
