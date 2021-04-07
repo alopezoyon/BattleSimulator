@@ -196,8 +196,6 @@ public class Equipo {
 				System.out.println("Introduce un valor valido");
 			}
 		}
-		
-		return accion;
 	}
 	
 	public void imprimirEquipo() {
