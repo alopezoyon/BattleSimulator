@@ -36,11 +36,11 @@ public class Batalla {
 		boolean terminado = false;
 		System.out.println("---INICIO DE LA BATALLA---");
 		System.out.println("");
-		System.out.println("Equipo1 alguien vivo: " + this.equipo1.alguienVivo());
-		System.out.println("Equipo2 alguien vivo: " + this.equipo2.alguienVivo());
+		//System.out.println("Equipo1 alguien vivo: " + this.equipo1.alguienVivo());
+		//System.out.println("Equipo2 alguien vivo: " + this.equipo2.alguienVivo());
 		
 		int index = 0;
-		while(!terminado) {
+		while(!terminado && index < 3) {
 			if(this.equipo1.alguienVivo()) {
 				this.equipo1.atacarEquipoAutomaticamente(this.equipo2);
 				

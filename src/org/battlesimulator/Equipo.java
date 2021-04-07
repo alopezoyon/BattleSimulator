@@ -23,7 +23,12 @@ public class Equipo {
 	
 	//Añade un jugador al equipo
 	public void anadirJugador(Jugador pJugador) {
+		//anadir la funcion this.ESTA
 		this.lista.add(pJugador);
+	}
+	
+	public boolean esta(Jugador pJugador) {
+		return this.lista.contains(pJugador);
 	}
 	
 	//Devuelve el numero de integrantes del equipo 
@@ -185,7 +190,7 @@ public class Equipo {
 		
 	}
 	
-	private int preguntarAccion() {
+	/*private int preguntarAccion() {
 		int accion = 0;
 		boolean terminado = false;
 		while(!terminado) {
@@ -196,7 +201,7 @@ public class Equipo {
 				System.out.println("Introduce un valor valido");
 			}
 		}
-	}
+	}*/
 	
 	public void imprimirEquipo() {
 		System.out.println("-");

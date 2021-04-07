@@ -4,7 +4,7 @@ public class GeneradorDeElementos {
 	
 	private static GeneradorDeElementos miGenerador;
 	//Configuracion Equipo
-	private int numMaxIntegrantesEquipo = 7;
+	private int numMaxIntegrantesEquipo = 2;
 	private String[] nombresEquipoAleatorio;
 	
 	//Configuracion Jugador
@@ -13,7 +13,7 @@ public class GeneradorDeElementos {
 	private int valorDefensaMaxima = 10;
 	
 	//Configuracion Objetos
-	private int numMaxObjetosInventario = 5;
+	private int numMaxObjetosInventario = 2;
 	private int valorAtaqueObjetoMaximo = 7;
 	private int valorDefensaObjetoMaxima = 4;
 	private int valorCuracionObjetoMaximo = 3;
