@@ -12,7 +12,11 @@ public class ListaInventario {
 	}
 	
 	public void anadirObjeto(Objeto pObjeto) {
-		this.lista.add(pObjeto);
+		if(!this.lista.contains(pObjeto) && !this.estaObjetoConId(pObjeto.getId())) {
+			this.lista.add(pObjeto);
+		}else {
+			System.out.println("El objeto que intenta añadir ya se encuentra en el inventario o hay otro con el mismo id");
+		}
 	}
 	
 	private Iterator<Objeto> getIterator(){

@@ -23,8 +23,19 @@ public class Batalla {
 	}
 	
 	public void iniciarBatalla() {
-//		this.iniciarBatallaConDecision();
-		this.iniciarBatallaAutomatica();
+		try {
+			Equipo misEquipos[] = Fichero.getFichero().crearEquiposDesdeFichero();
+			this.equipo1 = misEquipos[0];
+			this.equipo2 = misEquipos[1];
+			
+		} catch (SintaxisErrorException e) {
+			System.out.println("Hay un error de sintaxis en el fichero de equipos. Los equipos se generaran automaticamente");
+			this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+			this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+		}
+		
+		this.equipo1.imprimirEquipo();
+		this.equipo2.imprimirEquipo();
 	}
 	
 	private void iniciarBatallaAutomatica() {
