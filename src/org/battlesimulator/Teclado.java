@@ -23,18 +23,23 @@ public class Teclado {
 	public int leerEntero(String pMensajePrevio) {
 		System.out.println(pMensajePrevio);
 		String miLinea = sc.nextLine();
-		int entero = 0;
-		boolean valorCorrecto = false;
-		do {
-			try{
-		      entero = Integer.parseInt(miLinea.trim()); 
-			      
-		    }
-			catch (NumberFormatException nfe){
-				System.out.println("Introduce un numero entero positivo por favor");
+		boolean entradaValida = esNumero(miLinea);
+
+		while(!entradaValida) {
+			if(esNumero(miLinea)) {
+				entradaValida = true;
+			}else {
+				System.out.println("Introduce un numero entero positivo");
+				miLinea = sc.nextLine();
 			}
-		}while(!valorCorrecto);
+		}
 		
-		return entero;
+		 
+		
+		return Integer.parseInt(miLinea.trim());
 	}
+	
+	 private static boolean esNumero(String str){
+	        return str != null && str.matches("[0-9.]+");
+	    }
 }

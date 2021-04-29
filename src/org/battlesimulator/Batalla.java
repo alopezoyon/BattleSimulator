@@ -23,48 +23,98 @@ public class Batalla {
 	}
 	
 	public void iniciarBatalla() {
-		try {
-			Equipo misEquipos[] = Fichero.getFichero().crearEquiposDesdeFichero();
-			this.equipo1 = misEquipos[0];
-			this.equipo2 = misEquipos[1];
-			
-		} catch (SintaxisErrorException e) {
-			System.out.println("Hay un error de sintaxis en el fichero de equipos. Los equipos se generaran automaticamente");
+		System.out.println("");
+		System.out.println("Bienvenido al simulador de batalla");
+		System.out.println("");
+		Teclado.getTeclado().leerString("Presiona cualquier tecla para empzar...");
+		System.out.println("¿Como deseas comenzar la partida?");
+		System.out.println("1) Generar dos equipos de forma aleatoria");
+		System.out.println("2) Cargar los equipos guardados");
+		System.out.println("3) Crear dos equipos nuevos");
+		
+		int seleccion = 0;
+		boolean seleccionValida = false;
+		while(!seleccionValida) {
+			seleccion = Teclado.getTeclado().leerEntero("Seleccione una de las opciones anteriores");
+			System.out.println(seleccion);
+			if(seleccion == 1 || seleccion == 2 || seleccion == 3) {
+				seleccionValida = true;
+			}else {
+				System.out.println("Introduce un valor valido");
+			}
+		}
+		
+		if(seleccion == 1) {
 			this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
 			this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+			//Introducir opcion de guardar los equipos
+			
+		}else if(seleccion == 2) {
+			try {
+				Equipo misEquipos[] = Fichero.getFichero().crearEquiposDesdeFichero();
+				this.equipo1 = misEquipos[0];
+				this.equipo2 = misEquipos[1];
+				
+			} catch (SintaxisErrorException e) {
+				System.out.println("Hay un error de sintaxis en el fichero de equipos. Los equipos se generaran automaticamente");
+				this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+				this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+			}
+			
+		}else {
+			this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();
+			this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();
+			//Introducir opcion de guardar los equipos
+			
 		}
+		
+		if(this.equipo1 == null) {
+			System.out.println("Se ha producido un error con la generacion del equipo 1. Se generará uno nuevo");
+			this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+		}
+		
+		if(this.equipo2 == null) {
+			System.out.println("Se ha producido un error con la generacion del equipo 2. Se generará uno nuevo");
+			this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
+		}
+		System.out.println("");
+		System.out.println("---CONTENDIENTES---");
 		
 		this.equipo1.imprimirEquipo();
 		this.equipo2.imprimirEquipo();
+		
+		System.out.println("");
+		System.out.println("Los equipos han sido generados con exito.");
+		System.out.println("¿Que modo de juego quiere jugar?");
+		System.out.println("1) Automatico");
+		System.out.println("2) Con seleccion");
+		
+		seleccion = 0;
+		seleccionValida = false;
+		while(!seleccionValida) {
+			seleccion = Teclado.getTeclado().leerEntero("Seleccione una de las opciones anteriores");
+			if(seleccion == 1 || seleccion == 2) {
+				seleccionValida = true;
+			}else {
+				System.out.println("Introduce un valor valido");
+			}
+		}
+		
+		System.out.println("");
+		System.out.println("---INICIO DE LA BATALLA---");
+		
+		if(seleccion == 1) {
+			this.iniciarBatallaAutomatica();
+		}else if(seleccion == 2) {
+			this.iniciarBatallaConDecision();
+		}
+		
 	}
 	
 	private void iniciarBatallaAutomatica() {
-		System.out.println("---CONTENDIENTES---");
-		/*this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
-		this.equipo1.imprimirEquipo();
-		this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
-		this.equipo2.imprimirEquipo();*/
-		
-		Jugador miJugador = new Jugador("Fran", 10, 5, 3);
-		ListaInventario miLista = new ListaInventario();
-		Objeto miObjeto = new ObjetoAtaque(1, "Espada",5);
-		miLista.anadirObjeto(miObjeto);
-		miJugador.setInventario(miLista);
-		this.equipo1.anadirJugador(miJugador);
-		miJugador = new Jugador("Mijo", 150, 3, 1);
-		this.equipo1.anadirJugador(miJugador);
-		miJugador = new Jugador("Aquel", 200, 5, 2);
-		this.equipo2.anadirJugador(miJugador);
-		
-		this.equipo1.imprimirEquipo();
-		this.equipo2.imprimirEquipo();
 		boolean terminado = false;
-		System.out.println("---INICIO DE LA BATALLA---");
-		System.out.println("");
-		//System.out.println("Equipo1 alguien vivo: " + this.equipo1.alguienVivo());
-		//System.out.println("Equipo2 alguien vivo: " + this.equipo2.alguienVivo());
-		
 		int index = 1;
+		
 		while(!terminado && index <= 100) {
 			System.out.println("--- RONDA " + (index) + " ---");
 			if(this.equipo1.alguienVivo()) {
@@ -100,14 +150,6 @@ public class Batalla {
 	}
 	
 	private void iniciarBatallaConDecision() {
-		System.out.println("---CREACION DE CONTENDIENTES---");
-		this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();
-		this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();
-		
-		//this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
-		this.equipo1.imprimirEquipo();
-		//this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
-		this.equipo2.imprimirEquipo();
 		
 		System.out.println("---INICIO DE LA BATALLA---");
 		int index = 1;

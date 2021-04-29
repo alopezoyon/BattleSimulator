@@ -1,2 +1,5 @@
 E"hola":
 ["Francisco",A5,D3,C1,I(["Hacha",A3], ["Venda",C2])]
+
+E"Amazing":
+["Cachopo",A10,D23,C11,I(["Hacha",A30], ["Venda",C200])]

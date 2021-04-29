@@ -93,8 +93,8 @@ public class ListaInventario {
 		while(itr.hasNext() && !terminado) {
 			miObjeto = itr.next();
 			
-			if(miObjeto instanceof ObjetoDefensa) {
-				curacion = ((ObjetoDefensa) miObjeto).getDefensa();
+			if(miObjeto instanceof ObjetoCuracion) {
+				curacion = ((ObjetoCuracion) miObjeto).getCuracion();
 				((ObjetoCuracion) miObjeto).imprimirUso();
 				this.lista.remove(miObjeto);
 			}

@@ -63,7 +63,7 @@ public class Fichero {
 		int index = 0;
 		while (sc.hasNextLine() && index <= 1){
 			String linea = sc.nextLine();
-		    System.out.println(linea);
+		    //System.out.println(linea);
 		    
 		    if(linea.charAt(0) == 'E') {
 		    	//Inicia un equipo
@@ -74,7 +74,7 @@ public class Fichero {
 		    	
 		    	}
 		    	linea = linea.substring(linea.indexOf(34) + 1); // buscamos el inicio del nombre del equipo por las comillas "
-		    	System.out.println(linea);
+		    	//System.out.println(linea);
 		    	
 		    	if(linea.indexOf(34) < 0) {
 		    		throw (new SintaxisErrorException());
@@ -87,21 +87,24 @@ public class Fichero {
 		    	boolean equipoTerminado = false;
 		    	while(sc.hasNextLine() && !equipoTerminado) {
 		    		linea = sc.nextLine();
-		    		System.out.println(linea);
-		    		
-		    		if(linea.charAt(0) == '[') {
+		    		//System.out.println(linea);
+		    		if(linea == "") {
+		    			equipoTerminado = true;
+		    		}
+		    		else if(linea.charAt(0) == '[') {
 			    		misEquipos[index].anadirJugador(this.crearJugadorDesdeLinea(linea)); 
 		    			
 		    		}else {
 		    			equipoTerminado = true;
 		    		}
 		    		
-		    		
 		    	}
 		    }
+		    index++;
 		}
 		
 		if(misEquipos[0] == null || misEquipos[1] == null) {
+			System.out.println("Algun equipo no esta bien definido");
 			throw (new SintaxisErrorException());
 		}	
 		
@@ -127,14 +130,14 @@ public class Fichero {
 			throw (new SintaxisErrorException());
 		}
 		nombreJugador = pLinea.substring(0, pLinea.indexOf(34)); //Obtencion del nombre del jugador
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		
 		//Preparamos el string para la obtencion de los datos del jugador (busqueda de la comida anterior a la palabra A)
 		if(pLinea.indexOf(",") +1 >= pLinea.length()) {
 			throw (new SintaxisErrorException());
 		}	
 		pLinea = pLinea.substring(pLinea.indexOf(",") +1);
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		
 		//Comprobamos que se encuentra la informacion de ataque y la sintaxis es correcta (A___,)
 		if(pLinea.indexOf("A") < 0 || pLinea.indexOf("A") +1 > pLinea.indexOf(",")) {
@@ -143,14 +146,14 @@ public class Fichero {
 		}
 		pLinea = pLinea.substring(pLinea.indexOf("A") +1);
 		ataque = Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		
 		//Preparamos el string para la obtencion de los datos del jugador (busqueda de la comida anterior a la palabra D)
 		if(pLinea.indexOf(",") +1 >= pLinea.length()) {
 			throw (new SintaxisErrorException());
 		}	
 		pLinea = pLinea.substring(pLinea.indexOf(",") +1);
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		
 		//Comprobamos que se encuentra la informacion de defensa y la sintaxis es correcta (D___,)
 		if(pLinea.indexOf("D") < 0 || pLinea.indexOf("D") +1 > pLinea.indexOf(",")) {
@@ -158,15 +161,15 @@ public class Fichero {
 					    		
 		}
 		pLinea = pLinea.substring(pLinea.indexOf("D") +1);
-		defensa = Integer.parseInt(pLinea.substring(0,1)); 
-		System.out.println(pLinea);
+		defensa =Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
+		//System.out.println(pLinea);
 		
 		//Preparamos el string para la obtencion de los datos del jugador (busqueda de la comida anterior a la palabra C)
 		if(pLinea.indexOf(",") +1 >= pLinea.length()) {
 			throw (new SintaxisErrorException());
 		}	
 		pLinea = pLinea.substring(pLinea.indexOf(",") +1);
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		
 		//Comprobamos que se encuentra la informacion de curacion y la sintaxis es correcta (C___,)
 		if(pLinea.indexOf("C") < 0 || pLinea.indexOf("C") +1 > pLinea.indexOf(",")) {
@@ -174,8 +177,8 @@ public class Fichero {
 						    		
 		}
 		pLinea = pLinea.substring(pLinea.indexOf("C") +1);
-		curacion = Integer.parseInt(pLinea.substring(0,1)); 
-		System.out.println(pLinea);
+		curacion =Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
+		//System.out.println(pLinea);
 						    	
 		miJugador = new Jugador(nombreJugador, ataque, defensa, curacion);
 		miJugador.setInventario(this.crearInventarioDesdeLinea(pLinea));
@@ -190,7 +193,7 @@ public class Fichero {
 	    	
 	   	}
 		pLinea = pLinea.substring(pLinea.indexOf("I") +2); // buscamos el inicio del nombre del Jugador por las comillas "
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		int index = 1;
 		
 		while(pLinea.indexOf("[") >= 0) {
@@ -203,7 +206,7 @@ public class Fichero {
 			
 			miInventario.anadirObjeto(this.crearObjetoDesdeLinea(index, pLinea.substring(0, pLinea.indexOf("]")))); 
 			pLinea = pLinea.substring(pLinea.indexOf("]")+1);
-			System.out.println(pLinea);
+			//System.out.println(pLinea);
 			index++;
 			   		
 		}
@@ -216,7 +219,7 @@ public class Fichero {
 		String nombreObjeto = "";
 		int valorObjeto = 0;
 		
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		
 		if(pLinea.indexOf(34) < 0 && pLinea.indexOf(34) + 1 >= pLinea.length()) {
 	   		throw (new SintaxisErrorException());
@@ -229,14 +232,14 @@ public class Fichero {
 		    		
 		}
 		nombreObjeto = pLinea.substring(0, pLinea.indexOf(34));
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		  
 		//Preparamos el string para leer el tipo de objeto
 		if(pLinea.indexOf(",") +1 >= pLinea.length()) {
 			throw (new SintaxisErrorException());
 		}	
 		pLinea = pLinea.substring(pLinea.indexOf(",") +1);
-		System.out.println(pLinea);
+		//System.out.println(pLinea);
 		
 		//Leemos el tipo de objeto del que se trata (primera posicion) (A ataque, D defensa, C curacion)
 		if(pLinea.charAt(0) != 'A' && pLinea.charAt(0) != 'D' && pLinea.charAt(0) != 'C') {
@@ -244,7 +247,7 @@ public class Fichero {
 		}
 		
 		
-		if(pLinea.charAt(0) != 'A') {
+		if(pLinea.charAt(0) == 'A') {
 			if(pLinea.indexOf("A") + 1 >= pLinea.length()) {
 		   		throw (new SintaxisErrorException());
 		   		
@@ -252,7 +255,7 @@ public class Fichero {
 			valorObjeto = Integer.parseInt(pLinea.substring(1, pLinea.length()));
 			miObjeto = new ObjetoAtaque(pId, nombreObjeto, valorObjeto);
 			
-		}else if(pLinea.charAt(0) != 'D') {
+		}else if(pLinea.charAt(0) == 'D') {
 			if(pLinea.indexOf("D") + 1 >= pLinea.length()) {
 		   		throw (new SintaxisErrorException());
 		   		
@@ -260,7 +263,7 @@ public class Fichero {
 			valorObjeto = Integer.parseInt(pLinea.substring(1, pLinea.length()));
 			miObjeto = new ObjetoDefensa(pId, nombreObjeto, valorObjeto);
 			
-		}else if(pLinea.charAt(0) != 'C') {
+		}else if(pLinea.charAt(0) == 'C') {
 			if(pLinea.indexOf("C") + 1 >= pLinea.length()) {
 		   		throw (new SintaxisErrorException());
 		   		
