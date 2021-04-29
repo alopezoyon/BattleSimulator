@@ -2,18 +2,20 @@ package org.battlesimulator;
 
 public class ObjetoAtaque extends Objeto{
 	
-	public ObjetoAtaque(int pAtaque) {
-		super(pAtaque, 0, 0, "Hacha");
-		
+	private int ataque;
+	
+	public ObjetoAtaque(int pId, String pNombre, int pAtaque) {
+		super(pId, pNombre);
+		if(pAtaque < 0) {pAtaque = 0; }
+		this.ataque = pAtaque;
 	}
 	
-	@Override
 	public int getAtaque() {
-		return super.getAtaque();
+		return this.ataque;
 	}
 
 	@Override
 	public void imprimirObjeto() {
-		System.out.println(super.getNombre() + " con " + super.getAtaque() + " puntos de ataque");
+		System.out.println(super.getNombre() + " con " + this.ataque + " puntos de ataque");
 	}
 }

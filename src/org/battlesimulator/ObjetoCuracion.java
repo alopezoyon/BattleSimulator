@@ -2,17 +2,24 @@ package org.battlesimulator;
 
 public class ObjetoCuracion  extends Objeto{
 	
-	public ObjetoCuracion(int pCuracion) {
-		super(0, 0, pCuracion, "Venda");
+	private int curacion;
+	
+	public ObjetoCuracion(int pId, String pNombre, int pCuracion) {
+		super(pId, pNombre);
+		if(pCuracion < 0) {pCuracion = 0; }
+		this.curacion = pCuracion;
 	}
 	
-	@Override
 	public int getCuracion() {
-		return super.getCuracion();
+		return this.curacion;
 	}
 
 	@Override
 	public void imprimirObjeto() {
-		System.out.println(super.getNombre() + " con " + super.getCuracion() + " puntos de curacion");
+		System.out.println(super.getNombre() + " con " + this.curacion + " puntos de curacion");
+	}
+	
+	public void imprimirUso() {
+		System.out.println("Se ha usado el objeto " + super.getNombre() + " con " + this.curacion + " puntos de curacion");
 	}
 }

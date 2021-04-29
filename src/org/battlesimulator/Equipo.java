@@ -72,7 +72,12 @@ public class Equipo {
 		Jugador jugadorE2 = null;
 		int index = 0;
 		
-		System.out.println("El equipo " + this.nombre + " (" + this.numeroDeIntegrantes() + " integrantes) se dispone a atacar al equipo " + pEquipo2.getNombre() + " (" + pEquipo2.numeroDeIntegrantes() + " integrantes)");
+		System.out.println("El equipo " + this.nombre + " (" + this.numeroDeIntegrantesNoDebilitados() + " integrantes no debilitados) (" 
+					+ (this.numeroDeIntegrantes() - this.numeroDeIntegrantesNoDebilitados()) +" debilitados)"); 
+		System.out.println("se dispone a atacar al equipo " 
+					+ pEquipo2.getNombre() + " (" + pEquipo2.numeroDeIntegrantesNoDebilitados() + " integrantes no debilitados) ("
+					+ (pEquipo2.numeroDeIntegrantes() - pEquipo2.numeroDeIntegrantesNoDebilitados())+ " debilitados)");
+		
 		if(this.alguienVivo()){
 			while(itr.hasNext() && !terminado) {
 				jugadorE1 = itr.next();
@@ -84,14 +89,18 @@ public class Equipo {
 						//Atacar al otro equipo (si se puede)
 						if(pEquipo2.alguienVivo()) {
 							jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
-								
+							
+							if(jugadorE2 == null){
+								index = 0;
+								jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
+							}
+							
 							while(!jugadorE2.estaVivo()) {
 								index++;
-								if(index > pEquipo2.numeroDeIntegrantes()) {
+								jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
+								if(jugadorE2 == null){
 									index = 0;
 								}
-								
-								jugadorE2 = pEquipo2.obtenerJugadorEnPos(index);
 							}
 							 
 							jugadorE1.atacarJugador(jugadorE2);
@@ -111,7 +120,7 @@ public class Equipo {
 						while(itr2.hasNext() && !encontrado) {
 							jugadorMismoEquipo = itr2.next();
 							if(jugadorMismoEquipo.estaVivo()) {
-								jugadorE1.curarJugador(jugadorMismoEquipo);
+								jugadorE1.curarJugadorAutomaticamente(jugadorMismoEquipo);
 								encontrado = true;
 							}
 						}
@@ -147,8 +156,8 @@ public class Equipo {
 				int seleccion = 0;
 				boolean seleccionado = false;
 				while(!seleccionado) {
-					seleccion = Teclado.getTeclado().leerEntero("");
-					if(seleccion > 0 && seleccion < pEquipo.numeroDeIntegrantes()) { 
+					seleccion = Teclado.getTeclado().leerEntero("") -1;
+					if(seleccion >= 0 && seleccion < pEquipo.numeroDeIntegrantes()) { 
 						otroJugador = pEquipo.obtenerJugadorEnPos(seleccion);
 						if(otroJugador.estaVivo()) {
 							seleccionado = true; 
@@ -165,15 +174,15 @@ public class Equipo {
 				
 			}else if(accion == 2){
 				//Curar a un jugador de tu equipo
+				System.out.println("Seleccione el jugador a curar: ");
 				this.imprimirOpcionesDeAtaque();
-				System.out.println("Seleccione el jugador a curar");
 				
 				int seleccion = 0;
 				boolean seleccionado = false;
 				while(!seleccionado) {
 					seleccion = Teclado.getTeclado().leerEntero("") -1;
-					if(seleccion > 0 && seleccion < this.numeroDeIntegrantes()) { 
-						otroJugador = pEquipo.obtenerJugadorEnPos(seleccion);
+					if(seleccion >= 0 && seleccion < this.numeroDeIntegrantes()) { 
+						otroJugador = this.obtenerJugadorEnPos(seleccion);
 						if(otroJugador.estaVivo()) {
 							seleccionado = true; 
 						}else {
@@ -184,7 +193,7 @@ public class Equipo {
 					}
 				}
 				
-				miJugador.curarJugador(otroJugador);
+				miJugador.curarJugadorConDecision(otroJugador);
 			}
 		}
 		
@@ -202,6 +211,20 @@ public class Equipo {
 			}
 		}
 	}*/
+	
+	public int numeroDeIntegrantesNoDebilitados() {
+		Iterator<Jugador> itr = this.getIterator();
+		Jugador miJugador = null;
+		int num = 0;
+		while (itr.hasNext()) {
+			miJugador = itr.next();
+			if(miJugador.estaVivo()) {
+				num++;
+			}
+		}
+		
+		return num;
+	}
 	
 	public void imprimirEquipo() {
 		System.out.println("-");

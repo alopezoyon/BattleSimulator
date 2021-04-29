@@ -19,6 +19,32 @@ public class ListaInventario {
 		return this.lista.iterator();
 	}
 	
+	public boolean estaObjetoConId(int pId) {
+		Iterator<Objeto> itr = this.getIterator();
+		Objeto miObjeto = null;
+		boolean esta = false;
+		
+		while(itr.hasNext() && !esta) {
+			miObjeto = itr.next();
+			esta = miObjeto.tieneEsteId(pId);
+		}
+		
+		return esta;
+	}
+	
+	private Objeto buscarObjetoPorId(int pId) {
+		Iterator<Objeto> itr = this.getIterator();
+		Objeto miObjeto = null;
+		boolean esta = false;
+		
+		while(itr.hasNext() && !esta) {
+			miObjeto = itr.next();
+			esta = miObjeto.tieneEsteId(pId);
+		}
+		
+		return miObjeto;
+	}
+	
 	//Itera todos los elementos del inventario y acumula el valor de ataque de todos los objetos de ataque
 	public int obtenerDanoObjetos() {
 		Iterator<Objeto> itr = this.getIterator();
@@ -29,7 +55,7 @@ public class ListaInventario {
 			miObjeto = itr.next();
 			
 			if(miObjeto instanceof ObjetoAtaque) {
-				computedDamage += miObjeto.getAtaque();
+				computedDamage += ((ObjetoAtaque) miObjeto).getAtaque();
 			}
 		}
 		
@@ -46,7 +72,7 @@ public class ListaInventario {
 			miObjeto = itr.next();
 			
 			if(miObjeto instanceof ObjetoDefensa) {
-				computedProtection += miObjeto.getDefensa();
+				computedProtection += ((ObjetoDefensa) miObjeto).getDefensa();
 			}
 		}
 		
@@ -54,22 +80,39 @@ public class ListaInventario {
 	}
 	
 	//Itera todos los elementos del inventario y acumula el valor de curacion de todos los objetos de curacion
-	public int obtenerCuracionObjetos() {
+	public int obtenerCuracionPrimerObjeto() {
 		Iterator<Objeto> itr = this.getIterator();
 		Objeto miObjeto = null;
-		int computedHealth = 0;
+		int curacion = 0;
+		boolean terminado = false;
 		
-		while(itr.hasNext()) {
+		while(itr.hasNext() && !terminado) {
 			miObjeto = itr.next();
 			
-			if(miObjeto instanceof ObjetoCuracion) {
-				computedHealth += miObjeto.getCuracion();
+			if(miObjeto instanceof ObjetoDefensa) {
+				curacion = ((ObjetoDefensa) miObjeto).getDefensa();
+				((ObjetoCuracion) miObjeto).imprimirUso();
+				this.lista.remove(miObjeto);
 			}
 		}
 		
-		return computedHealth;
+		return curacion;
 	}
-
+	
+	public int obtenerCuracionObjetoConId(int pId) {
+		Objeto miObjeto = this.buscarObjetoPorId(pId);
+		int curacion = 0;
+		if(miObjeto != null) {
+			if(miObjeto instanceof ObjetoCuracion) {
+				curacion = ((ObjetoCuracion) miObjeto).getCuracion();
+				((ObjetoCuracion) miObjeto).imprimirUso();
+				this.lista.remove(miObjeto);
+			}
+		}
+		
+		return curacion;
+	}
+	
 	public void imprimirInventario() {
 		Iterator<Objeto> itr = this.getIterator();
 		Objeto miObjeto = null;
@@ -79,5 +122,19 @@ public class ListaInventario {
 			miObjeto.imprimirObjeto();
 		}
 		System.out.println("(" + this.lista.size() + " objetos)");
+	}
+	
+	public void imprimirOpcionesCuracion() {
+		Iterator<Objeto> itr = this.getIterator();
+		Objeto miObjeto = null;
+		
+		while(itr.hasNext()) {
+			miObjeto = itr.next();
+			
+			if(miObjeto instanceof ObjetoCuracion) {
+				System.out.print(miObjeto.getId() + " ) ");
+				((ObjetoCuracion) miObjeto).imprimirObjeto();
+			}
+		}
 	}
 }

@@ -1,19 +1,22 @@
 package org.battlesimulator;
 
 public class ObjetoDefensa extends Objeto{
-
-	public ObjetoDefensa(int pDefensa) {
-		super(0, pDefensa, 0, "Casco");
+	
+	private int defensa;
+	
+	public ObjetoDefensa(int pId, String pNombre, int pDefensa) {
+		super(pId, pNombre);
+		if(pDefensa < 0) {pDefensa = 0; }
+		this.defensa = pDefensa;
 	}
 	
-	@Override
 	public int getDefensa() {
-		return super.getDefensa();
+		return this.defensa;
 	}
 
 	@Override
 	public void imprimirObjeto() {
-		System.out.println(super.getNombre() + " con " + super.getDefensa() + " puntos de defensa");
+		System.out.println(super.getNombre() + " con " + this.defensa + " puntos de defensa");
 	}
 }
 

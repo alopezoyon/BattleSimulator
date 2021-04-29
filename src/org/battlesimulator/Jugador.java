@@ -58,12 +58,16 @@ public class Jugador {
 	}
 	
 	public void curarVida(int pVida) {
-		if(this.estaVivo() && pVida > 0) {
-			this.vida += pVida;
-		}
-		
-		if(this.vida > this.vidaMaxima) {
-			this.vida = this.vidaMaxima;
+		if(this.vida < this.vidaMaxima) {
+			if(this.estaVivo() && pVida > 0) {
+				this.vida += pVida;
+			}
+			
+			if(this.vida > this.vidaMaxima) {
+				this.vida = this.vidaMaxima;
+			}
+		}else {
+			System.out.println("Sin embargo, la vida de este jugador ya esta al máximo. Siguiente turno");
 		}
 	}
 	
@@ -74,12 +78,46 @@ public class Jugador {
 		pJugador.recibirDano(danoTotal);
 	}
 	
-	public void curarJugador(Jugador pJugador) {
+	public void curarJugadorAutomaticamente(Jugador pJugador) {
 		//Habra que implementarlo de otra forma. Usar solo una venda por ejemplo
-		int vidaTotal = this.inventario.obtenerCuracionObjetos();
+		int vidaCuracion = this.inventario.obtenerCuracionPrimerObjeto();
+		if(vidaCuracion == 0) {
+			vidaCuracion = 1;
+			System.out.println("El jugador no cuenta con objetos de curacion, por lo que usa Hierbajo (1 curacion)");
+		}
 		
-		System.out.println("El jugador " + this.nombre + " ha curado al jugador " + pJugador.getNombre() + " con " + vidaTotal + " puntos de vida");
-		pJugador.curarVida(vidaTotal);
+		System.out.println("El jugador " + this.nombre + " ha curado al jugador " + pJugador.getNombre() + " con " + vidaCuracion + " puntos de vida");
+		pJugador.curarVida(vidaCuracion);
+	}
+	
+	public void curarJugadorConDecision(Jugador pJugador) {
+		System.out.println("Opciones de curacion: ");
+		int vidaCuracion = 0;
+		
+		if(this.inventario.obtenerCuracionPrimerObjeto() == 0) {
+			int seleccion = Teclado.getTeclado().leerEntero("El jugador no cuenta con objetos de curacion. ¿Quiere usar un Hierbajo (1 curacion)? Presione 1 en caso afirmativo, otra tecla en caso contrario");
+			if(seleccion == 1) {
+				vidaCuracion = 1;
+				System.out.println("El jugador " + this.nombre + " ha curado al jugador " + pJugador.getNombre() + " con " + vidaCuracion + " puntos de vida");
+			}
+		}else {
+			this.inventario.imprimirOpcionesCuracion();
+			System.out.println("Seleccione el objeto de curacion");
+			boolean terminado = false;
+			int seleccion;
+			
+			while(!terminado) {
+				seleccion = Teclado.getTeclado().leerEntero("");
+				if(this.inventario.estaObjetoConId(seleccion)) {
+					vidaCuracion = this.inventario.obtenerCuracionObjetoConId(seleccion);
+					terminado = true;
+				}
+			}
+			
+			System.out.println("El jugador " + this.nombre + " ha curado al jugador " + pJugador.getNombre() + " con " + vidaCuracion + " puntos de vida");
+		}
+		
+		
 	}
 	
 	public void imprimirJugadorInventario() {
@@ -93,5 +131,9 @@ public class Jugador {
 		if(this.estaVivo()) { debilitado = ""; }
 		
 		System.out.println("El jugador " + this.nombre + " tiene " + this.vida + " puntos de vida, " + this.ataque + " puntos de ataque y " + this.defensa + " puntos de defensa." + debilitado);
+	}
+	
+	public void imprimirOpcionesCuracion() {
+		
 	}
 }

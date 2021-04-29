@@ -5,22 +5,40 @@ public class GeneradorDeElementos {
 	private static GeneradorDeElementos miGenerador;
 	//Configuracion Equipo
 	private int numMaxIntegrantesEquipo = 2;
-	private String[] nombresEquipoAleatorio;
+	private ListaNombres listaNombresEquipo;
 	
 	//Configuracion Jugador
 	private int valorVidaMaxima = 30;
 	private int valorAtaqueMaximo = 10;
 	private int valorDefensaMaxima = 10;
+	private ListaNombres listaNombresJugador;
 	
 	//Configuracion Objetos
 	private int numMaxObjetosInventario = 2;
 	private int valorAtaqueObjetoMaximo = 7;
 	private int valorDefensaObjetoMaxima = 4;
 	private int valorCuracionObjetoMaximo = 3;
+	private ListaNombres listaNombresObjetoAtaque;
+	private ListaNombres listaNombresObjetoDefensa;
+	private ListaNombres listaNombresObjetoCuracion;
 	
 	
 	private GeneradorDeElementos() {
-		this.nombresEquipoAleatorio =  new String[]{"Los Colosos", "Los Fuertes"};
+		String[] nombresEquipo = {"Anticipacion", "Snidel", "La Compania"};
+		this.listaNombresEquipo = new ListaNombres(nombresEquipo);
+		
+		String[] nombresJugador = {"Francisco", "Gustavo", "Sara"};
+		this.listaNombresJugador = new ListaNombres(nombresJugador);
+		
+		String[] nombresObjetoAtaque = {"Hacha", "Espada", "Hoz"};
+		this.listaNombresObjetoAtaque = new ListaNombres(nombresObjetoAtaque);
+		
+		String[] nombresObjetoDefensa = {"Casco", "Armadura", "Pantorrillas"};
+		this.listaNombresObjetoDefensa = new ListaNombres(nombresObjetoDefensa);
+		
+		String[] nombresObjetoCuracion = {"Venda", "Venda", "Botiquin"};
+		this.listaNombresObjetoCuracion = new ListaNombres(nombresObjetoCuracion);
+		
 	}
 	
 	public static GeneradorDeElementos getGeneradorDeElementos() {
@@ -30,8 +48,7 @@ public class GeneradorDeElementos {
 	
 	//Id de los jugadores: primer digito el id del equipo y segundo el id del jugador
 	public Equipo GenerarEquipoAleatorio() {
-		int numAleatorio = NumeroAleatorio.obtenerNumAleatorio(this.nombresEquipoAleatorio.length)-1;
-		String nombre = this.nombresEquipoAleatorio[numAleatorio];
+		String nombre = this.listaNombresEquipo.obtenerNombreAleatorio();
 		Equipo miEquipo = new Equipo(nombre);
 		
 		int numIntegrantes = NumeroAleatorio.obtenerNumAleatorio(this.numMaxIntegrantesEquipo);
@@ -49,7 +66,8 @@ public class GeneradorDeElementos {
 		int vida = NumeroAleatorio.obtenerNumAleatorio(this.valorVidaMaxima);
 		int ataque = NumeroAleatorio.obtenerNumAleatorio(this.valorAtaqueMaximo);
 		int defensa = NumeroAleatorio.obtenerNumAleatorio(this.valorDefensaMaxima);
-		Jugador miJugador = new Jugador("Gustavo", vida, ataque, defensa);
+		String nombre = this.listaNombresJugador.obtenerNombreAleatorio();
+		Jugador miJugador = new Jugador(nombre, vida, ataque, defensa);
 		ListaInventario miInventario = this.GenerarInventarioAleatorio();
 		miJugador.setInventario(miInventario);
 		
@@ -59,34 +77,38 @@ public class GeneradorDeElementos {
 	private ListaInventario GenerarInventarioAleatorio() {
 		ListaInventario miInventario = new ListaInventario();
 		int numObjetosInventario = NumeroAleatorio.obtenerNumAleatorio(this.numMaxObjetosInventario);
-		
+		int index = 1;
 		while(numObjetosInventario > 0) {
-			Objeto miObjeto = this.GenerarObjetoAleatorio();
+			Objeto miObjeto = this.GenerarObjetoAleatorio(index);
 			
 			if(miObjeto != null) {
 				miInventario.anadirObjeto(miObjeto);
 			}
 			numObjetosInventario--;
+			index++;
 		}
 		
 		return miInventario;
 	}
 	
-	private Objeto GenerarObjetoAleatorio() {
+	private Objeto GenerarObjetoAleatorio(int pId) {
 		Objeto miObjeto = null;
 		int numAleatorio = NumeroAleatorio.obtenerNumAleatorio(3);
 		
 		if(numAleatorio == 1) {
 			int valorAtaque = NumeroAleatorio.obtenerNumAleatorio(this.valorAtaqueObjetoMaximo);
-			miObjeto = new ObjetoAtaque(valorAtaque);
+			String nombre = this.listaNombresObjetoAtaque.obtenerNombreAleatorio();
+			miObjeto = new ObjetoAtaque(pId, nombre, valorAtaque);
 			
 		}else if(numAleatorio == 2) {
 			int valorDefensa = NumeroAleatorio.obtenerNumAleatorio(this.valorDefensaObjetoMaxima);
-			miObjeto = new ObjetoDefensa(valorDefensa);
+			String nombre = this.listaNombresObjetoDefensa.obtenerNombreAleatorio();
+			miObjeto = new ObjetoDefensa(pId, nombre, valorDefensa);
 			
 		}else if(numAleatorio == 3) {
 			int valorCuracion = NumeroAleatorio.obtenerNumAleatorio(this.valorCuracionObjetoMaximo);
-			miObjeto = new ObjetoCuracion(valorCuracion);
+			String nombre = this.listaNombresObjetoCuracion.obtenerNombreAleatorio();
+			miObjeto = new ObjetoCuracion(pId, nombre, valorCuracion);
 		}
 		
 		return miObjeto;
@@ -145,14 +167,14 @@ public class GeneradorDeElementos {
 		int index = 0;
 		while(index < pNumObjetos) {
 			System.out.println("Objeto " + index+1);
-			inventario.anadirObjeto(this.generarObjetoUsuario());
+			inventario.anadirObjeto(this.generarObjetoUsuario(index +1));
 			index++;
 		}
 		
 		return inventario;
 	}
 	
-	private Objeto generarObjetoUsuario() {
+	private Objeto generarObjetoUsuario(int pId) {
 		Objeto miObjeto = null;
 		boolean terminado = false;
 		int tipo = 0;
@@ -167,13 +189,16 @@ public class GeneradorDeElementos {
 		
 		if(tipo == 1) {
 			int ataque = Teclado.getTeclado().leerEntero("Introduzca el valor de ataque del objeto (1 - " + this.valorAtaqueObjetoMaximo + " )");
-			miObjeto = new ObjetoAtaque(ataque);
+			String nombre = Teclado.getTeclado().leerString("Introduzca el nombre del objeto de ataque");
+			miObjeto = new ObjetoAtaque(pId, nombre, ataque);
 		}else if(tipo == 2) {
 			int defensa = Teclado.getTeclado().leerEntero("Introduzca el valor de defensa del objeto (1 - " + this.valorDefensaObjetoMaxima + " )");
-			miObjeto = new ObjetoDefensa(defensa);
+			String nombre = Teclado.getTeclado().leerString("Introduzca el nombre del objeto de defensa");
+			miObjeto = new ObjetoDefensa(pId, nombre, defensa);
 		}else {
 			int curacion = Teclado.getTeclado().leerEntero("Introduzca el valor de curacion del objeto (1 - " + this.valorCuracionObjetoMaximo + " )");
-			miObjeto = new ObjetoCuracion(curacion);
+			String nombre = Teclado.getTeclado().leerString("Introduzca el nombre del objeto de curacion");
+			miObjeto = new ObjetoCuracion(pId, nombre, curacion);
 		}
 		
 		return miObjeto;

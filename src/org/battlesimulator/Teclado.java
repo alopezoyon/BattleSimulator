@@ -22,6 +22,19 @@ public class Teclado {
 	
 	public int leerEntero(String pMensajePrevio) {
 		System.out.println(pMensajePrevio);
-		return sc.nextInt();
+		String miLinea = sc.nextLine();
+		int entero = 0;
+		boolean valorCorrecto = false;
+		do {
+			try{
+		      entero = Integer.parseInt(miLinea.trim()); 
+			      
+		    }
+			catch (NumberFormatException nfe){
+				System.out.println("Introduce un numero entero positivo por favor");
+			}
+		}while(!valorCorrecto);
+		
+		return entero;
 	}
 }

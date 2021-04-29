@@ -1,20 +1,11 @@
 package org.battlesimulator;
 
 public abstract class Objeto {
+	private int id;
 	private String nombre;
 	
-	private int ataque;
-	private int defensa;
-	private int curacion;
-	
-	public Objeto(int pAtaque, int pDefensa, int pCuracion, String pNombre) {
-		if(pAtaque < 0) {pAtaque = 0; }
-		if(pDefensa < 0) {pDefensa = 0; }
-		if(pCuracion < 0) {pCuracion = 0; }
-		
-		this.ataque = pAtaque;
-		this.defensa = pDefensa;
-		this.curacion = pCuracion;
+	public Objeto(int pId, String pNombre) {
+		this.id = pId;
 		this.nombre = pNombre;
 	}
 	
@@ -22,16 +13,13 @@ public abstract class Objeto {
 		return this.nombre;
 	}
 	
-	protected int getAtaque() {
-		return this.ataque;
+	//Solo para imprimir
+	public int getId() {
+		return this.id;
 	}
 	
-	protected int getDefensa() {
-		return this.defensa;
-	}
-	
-	protected int getCuracion() {
-		return this.curacion;
+	public boolean tieneEsteId(int pId) {
+		return pId == this.id;
 	}
 	
 	public abstract void imprimirObjeto();
