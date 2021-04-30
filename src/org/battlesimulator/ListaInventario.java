@@ -96,6 +96,7 @@ public class ListaInventario {
 			if(miObjeto instanceof ObjetoCuracion) {
 				curacion = ((ObjetoCuracion) miObjeto).getCuracion();
 				((ObjetoCuracion) miObjeto).imprimirUso();
+				terminado = true;
 				this.lista.remove(miObjeto);
 			}
 		}

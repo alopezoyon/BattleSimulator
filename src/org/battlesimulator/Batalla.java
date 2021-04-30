@@ -47,7 +47,6 @@ public class Batalla {
 		if(seleccion == 1) {
 			this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
 			this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().GenerarEquipoAleatorio();
-			//Introducir opcion de guardar los equipos
 			
 		}else if(seleccion == 2) {
 			try {
@@ -64,7 +63,6 @@ public class Batalla {
 		}else {
 			this.equipo1 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();
 			this.equipo2 = GeneradorDeElementos.getGeneradorDeElementos().generarEquipoUsuario();
-			//Introducir opcion de guardar los equipos
 			
 		}
 		
@@ -85,6 +83,16 @@ public class Batalla {
 		
 		System.out.println("");
 		System.out.println("Los equipos han sido generados con exito.");
+		
+		if(seleccion == 1 || seleccion == 3) {
+			seleccion = Teclado.getTeclado().leerEntero("¿Desea guardar los equipos generados? (1- Si  Otro valor- No)");
+			
+			if(seleccion == 1) {
+				Fichero.getFichero().confirmarSobreescribirFichero();
+			}
+			System.out.println("");
+		}
+		
 		System.out.println("¿Que modo de juego quiere jugar?");
 		System.out.println("1) Automatico");
 		System.out.println("2) Con seleccion");
@@ -150,8 +158,6 @@ public class Batalla {
 	}
 	
 	private void iniciarBatallaConDecision() {
-		
-		System.out.println("---INICIO DE LA BATALLA---");
 		int index = 1;
 		boolean terminado = false;
 		

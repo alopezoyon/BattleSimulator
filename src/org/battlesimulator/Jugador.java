@@ -92,6 +92,8 @@ public class Jugador {
 	
 	public void curarJugadorConDecision(Jugador pJugador) {
 		System.out.println("Opciones de curacion: ");
+		this.inventario.imprimirOpcionesCuracion();
+		
 		int vidaCuracion = 0;
 		
 		if(this.inventario.obtenerCuracionPrimerObjeto() == 0) {
@@ -133,7 +135,4 @@ public class Jugador {
 		System.out.println("El jugador " + this.nombre + " tiene " + this.vida + " puntos de vida, " + this.ataque + " puntos de ataque y " + this.defensa + " puntos de defensa." + debilitado);
 	}
 	
-	public void imprimirOpcionesCuracion() {
-		
-	}
 }
