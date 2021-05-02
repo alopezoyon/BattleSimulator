@@ -2,7 +2,7 @@
 Un simulador de batalla para profundizar en la propgramacion modular y orientacion a objetos
 
 
-###Especificación del juego###
+### Especificación del juego 
 
 Battle Simulator es un juego por consola en el cual dos equipos se enfrentan en una batalla de estilo rpg por rondas. Este juego consta de varios modos de juego: Un modo de juego automático en el que el jugador es un espectador y observa el transcurso de la contienda, y un modo de juego en el que el usuario es el encargado de tomar las decisiones en cada turno así como de crear los equipos. Además, también se implementará la opción de cargar los equipos de la batalla desde un fichero externo y la posibilidad de guardar los equipos actuales en dicho fichero o guardar el desarrollo del juego en otro fichero de texto.
 
