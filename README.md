@@ -14,7 +14,6 @@ En el modo espectador, los equipos contendientes son generados automáticamente 
 1. Primero se comprueba que tanto el equipo atacante como el equipo atacado tenga al menos un miembro que no esté debilitado. En caso contrario se pondrá fin a la batalla con el correspondiente ganador.
 2. En segundo lugar se elige de forma aleatoria la acción a realizar: curar a un jugador del mismo equipo o atacar a un jugador del equipo contrario.
 3. En tercer lugar se realiza la acción:
-
   - En el caso de curar se busca un jugador aleatorio del mismo equipo que no esté debilitado
   - En el caso de atacar se busca el primer jugador más cercano a la posición de ataque que no esté debilitado. La posición de ataque es un contador que se incrementa cada vez que un jugador ataca a otro del equipo contrario (si la posición de ataque es superior al número de integrantes del equipo contrario, su valor vuelve a 0)
   
