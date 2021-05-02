@@ -3,18 +3,21 @@ package org.battlesimulator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Fichero {
 	private static Fichero miFichero;
 	private String rutaFichero;
+	private String datosSobreescribirFichero;
 	
 	private Fichero() {
 		String dirActual = System.getProperty("user.dir");
 		this.rutaFichero = dirActual + File.separator + "assets" +  File.separator + "entrada.txt";
-		System.out.println(this.rutaFichero);
+		this.datosSobreescribirFichero = "";
 		
 		try {
 			InputStream fich = new FileInputStream(this.rutaFichero);
@@ -43,7 +46,7 @@ public class Fichero {
 	 * E -> inicio de descripcion de un equipo
 	 * "" -> introduccion de nombres
 	 * [] -> descripcion de jugadores o objetos
-	 * A,D,C -> caractesistica a la que se le establece un valor (Ataque, Defensa, Curacion)
+	 * V,A,D -> caractesistica a la que se le establece un valor (Vida, Ataque, Defensa)
 	 * I -> inicio de descripcion de un inventario
 	 * , -> separadores de caracteristicas
 	 * INTRO -> Siguiente equipo
@@ -59,8 +62,8 @@ public class Fichero {
 		
 		Scanner sc = new Scanner(fich);
 		Equipo[] misEquipos = {null, null};
-		boolean equiposFormados = false;
 		int index = 0;
+		
 		while (sc.hasNextLine() && index <= 1){
 			String linea = sc.nextLine();
 		    //System.out.println(linea);
@@ -114,9 +117,9 @@ public class Fichero {
 	private Jugador crearJugadorDesdeLinea(String pLinea) throws SintaxisErrorException {
 		Jugador miJugador = null;
 		String nombreJugador = "";
+		int vida = 0;
 		int ataque = 0;
 		int defensa = 0;
-		int curacion = 0;
 		
 		//Comprobamos que el string recibido contiene el nombre del jugador (inicio de las comillas ")
 		if(pLinea.indexOf(34) < 0 || pLinea.indexOf(34) + 1 >= pLinea.length()) {
@@ -132,6 +135,22 @@ public class Fichero {
 		nombreJugador = pLinea.substring(0, pLinea.indexOf(34)); //Obtencion del nombre del jugador
 		//System.out.println(pLinea);
 		
+		//Preparamos el string para la obtencion de los datos del jugador (busqueda de la comida anterior a la palabra V)
+		if(pLinea.indexOf(",") +1 >= pLinea.length()) {
+			throw (new SintaxisErrorException());
+		}	
+		pLinea = pLinea.substring(pLinea.indexOf(",") +1);
+		//System.out.println(pLinea);
+		
+		//Comprobamos que se encuentra la informacion de vida y la sintaxis es correcta (V___,)
+		if(pLinea.indexOf("V") < 0 || pLinea.indexOf("V") +1 > pLinea.indexOf(",")) {
+			throw (new SintaxisErrorException());
+				    		
+		}
+		pLinea = pLinea.substring(pLinea.indexOf("V") +1);
+		vida = Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
+		//System.out.println(pLinea);
+		
 		//Preparamos el string para la obtencion de los datos del jugador (busqueda de la comida anterior a la palabra A)
 		if(pLinea.indexOf(",") +1 >= pLinea.length()) {
 			throw (new SintaxisErrorException());
@@ -142,10 +161,10 @@ public class Fichero {
 		//Comprobamos que se encuentra la informacion de ataque y la sintaxis es correcta (A___,)
 		if(pLinea.indexOf("A") < 0 || pLinea.indexOf("A") +1 > pLinea.indexOf(",")) {
 			throw (new SintaxisErrorException());
-				    		
+					    		
 		}
 		pLinea = pLinea.substring(pLinea.indexOf("A") +1);
-		ataque = Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
+		ataque =Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
 		//System.out.println(pLinea);
 		
 		//Preparamos el string para la obtencion de los datos del jugador (busqueda de la comida anterior a la palabra D)
@@ -155,32 +174,16 @@ public class Fichero {
 		pLinea = pLinea.substring(pLinea.indexOf(",") +1);
 		//System.out.println(pLinea);
 		
-		//Comprobamos que se encuentra la informacion de defensa y la sintaxis es correcta (D___,)
+		//Comprobamos que se encuentra la informacion de curacion y la sintaxis es correcta (D___,)
 		if(pLinea.indexOf("D") < 0 || pLinea.indexOf("D") +1 > pLinea.indexOf(",")) {
 			throw (new SintaxisErrorException());
-					    		
+						    		
 		}
 		pLinea = pLinea.substring(pLinea.indexOf("D") +1);
 		defensa =Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
 		//System.out.println(pLinea);
-		
-		//Preparamos el string para la obtencion de los datos del jugador (busqueda de la comida anterior a la palabra C)
-		if(pLinea.indexOf(",") +1 >= pLinea.length()) {
-			throw (new SintaxisErrorException());
-		}	
-		pLinea = pLinea.substring(pLinea.indexOf(",") +1);
-		//System.out.println(pLinea);
-		
-		//Comprobamos que se encuentra la informacion de curacion y la sintaxis es correcta (C___,)
-		if(pLinea.indexOf("C") < 0 || pLinea.indexOf("C") +1 > pLinea.indexOf(",")) {
-			throw (new SintaxisErrorException());
-						    		
-		}
-		pLinea = pLinea.substring(pLinea.indexOf("C") +1);
-		curacion =Integer.parseInt(pLinea.substring(0, pLinea.indexOf(","))); 
-		//System.out.println(pLinea);
 						    	
-		miJugador = new Jugador(nombreJugador, ataque, defensa, curacion);
+		miJugador = new Jugador(nombreJugador, vida, ataque, defensa);
 		miJugador.setInventario(this.crearInventarioDesdeLinea(pLinea));
 		
 		return miJugador;
@@ -277,7 +280,46 @@ public class Fichero {
 		return miObjeto;
 	}
 	
-	public void guardarEquipoEnFichero(Equipo pEquipo) {
+	public void iniciarGuardarEquipoEnFichero(String pNombre) {
+		this.datosSobreescribirFichero += "E" + "\"" + pNombre +"\"" + ":" + "\n";
 	}
 	
+	public void terminarGuardarEquipoEnFichero() {
+		this.datosSobreescribirFichero += "\n";
+	}
+	
+	public void iniciarGuardarJugadorEnFichero(String pNombre, int pVida, int pAtaque, int pDefensa) {
+		this.datosSobreescribirFichero += "[" + "\"" + pNombre +"\"" +  ",V" + pVida + ",A" + pAtaque + ",D" + pDefensa + ",";
+	}
+	
+	public void terminarGuardarJugadorEnFichero() {
+		this.datosSobreescribirFichero += "]" + "\n";
+	}
+	
+	public void iniciarGuardarInventarioEnFichero() {
+		this.datosSobreescribirFichero += "I(";
+	}
+	
+	public void terminarGuardarInventarioEnFichero() {
+		this.datosSobreescribirFichero += ")";
+	}
+	
+	public void guardarObjetoInventarioEnFichero(String pNombre, String pTipo, int pValor) {
+		this.datosSobreescribirFichero += "[" + "\"" + pNombre +"\"" + "," + pTipo + pValor + "]";
+	}
+	
+	public void confirmarSobreescribirFichero() {
+		FileWriter fichero = null;
+		try {
+			fichero = new FileWriter(this.rutaFichero, false);
+		} catch (IOException e) {
+			System.out.println("Se ha producido un error al ecceder al fichero de guardado. Probablemente exista un problema con la ruta del mismo");
+
+		}
+		
+		PrintWriter pw = new PrintWriter(fichero);
+		pw.print(this.datosSobreescribirFichero);
+		pw.close();
+		System.out.println("Se han sobreescrito los datos satisfactoriamente");
+	}
 }

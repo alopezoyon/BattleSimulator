@@ -50,6 +50,7 @@ public class GeneradorDeElementos {
 	public Equipo GenerarEquipoAleatorio() {
 		String nombre = this.listaNombresEquipo.obtenerNombreAleatorio();
 		Equipo miEquipo = new Equipo(nombre);
+		Fichero.getFichero().iniciarGuardarEquipoEnFichero(nombre);
 		
 		int numIntegrantes = NumeroAleatorio.obtenerNumAleatorio(this.numMaxIntegrantesEquipo);
 		
@@ -59,6 +60,7 @@ public class GeneradorDeElementos {
 			numIntegrantes--;
 		}
 		
+		Fichero.getFichero().terminarGuardarEquipoEnFichero();
 		return miEquipo;
 	}
 	
@@ -67,10 +69,14 @@ public class GeneradorDeElementos {
 		int ataque = NumeroAleatorio.obtenerNumAleatorio(this.valorAtaqueMaximo);
 		int defensa = NumeroAleatorio.obtenerNumAleatorio(this.valorDefensaMaxima);
 		String nombre = this.listaNombresJugador.obtenerNombreAleatorio();
+		
 		Jugador miJugador = new Jugador(nombre, vida, ataque, defensa);
+		Fichero.getFichero().iniciarGuardarJugadorEnFichero(nombre, vida, ataque, defensa);
+	
 		ListaInventario miInventario = this.GenerarInventarioAleatorio();
 		miJugador.setInventario(miInventario);
 		
+		Fichero.getFichero().terminarGuardarJugadorEnFichero();
 		return miJugador;
 	}
 	
@@ -78,6 +84,8 @@ public class GeneradorDeElementos {
 		ListaInventario miInventario = new ListaInventario();
 		int numObjetosInventario = NumeroAleatorio.obtenerNumAleatorio(this.numMaxObjetosInventario);
 		int index = 1;
+		Fichero.getFichero().iniciarGuardarInventarioEnFichero();
+		
 		while(numObjetosInventario > 0) {
 			Objeto miObjeto = this.GenerarObjetoAleatorio(index);
 			
@@ -88,6 +96,7 @@ public class GeneradorDeElementos {
 			index++;
 		}
 		
+		Fichero.getFichero().terminarGuardarInventarioEnFichero();
 		return miInventario;
 	}
 	
@@ -99,16 +108,20 @@ public class GeneradorDeElementos {
 			int valorAtaque = NumeroAleatorio.obtenerNumAleatorio(this.valorAtaqueObjetoMaximo);
 			String nombre = this.listaNombresObjetoAtaque.obtenerNombreAleatorio();
 			miObjeto = new ObjetoAtaque(pId, nombre, valorAtaque);
+			Fichero.getFichero().guardarObjetoInventarioEnFichero(nombre, "A", valorAtaque);
 			
 		}else if(numAleatorio == 2) {
 			int valorDefensa = NumeroAleatorio.obtenerNumAleatorio(this.valorDefensaObjetoMaxima);
 			String nombre = this.listaNombresObjetoDefensa.obtenerNombreAleatorio();
 			miObjeto = new ObjetoDefensa(pId, nombre, valorDefensa);
+			Fichero.getFichero().guardarObjetoInventarioEnFichero(nombre, "D", valorDefensa);
 			
 		}else if(numAleatorio == 3) {
 			int valorCuracion = NumeroAleatorio.obtenerNumAleatorio(this.valorCuracionObjetoMaximo);
 			String nombre = this.listaNombresObjetoCuracion.obtenerNombreAleatorio();
 			miObjeto = new ObjetoCuracion(pId, nombre, valorCuracion);
+			Fichero.getFichero().guardarObjetoInventarioEnFichero(nombre, "C", valorCuracion);
+			
 		}
 		
 		return miObjeto;
@@ -119,6 +132,7 @@ public class GeneradorDeElementos {
 		Teclado.getTeclado().leerString("");
 		String nombre = Teclado.getTeclado().leerString("Introduzca el nombre del equipo");
 		Equipo miEquipo = new Equipo(nombre);
+		Fichero.getFichero().iniciarGuardarEquipoEnFichero(nombre);
 		
 		int integrantes = Teclado.getTeclado().leerEntero("Introduzca el numero de integrantes del equipo (1 - " + this.numMaxIntegrantesEquipo + ")");
 		if(integrantes < 1) { integrantes = 1; }
@@ -131,6 +145,7 @@ public class GeneradorDeElementos {
 			index++;
 		}
 		
+		Fichero.getFichero().terminarGuardarEquipoEnFichero();
 		System.out.println("-- El equipo se ha generado satisfactoriamente: ");
 		miEquipo.imprimirEquipo();
 		return miEquipo;
@@ -145,6 +160,7 @@ public class GeneradorDeElementos {
 		int defensa = Teclado.getTeclado().leerEntero("Introduzca la defensa basae del jugador (1 - " + this.valorDefensaMaxima + " )");
 		int numObjetos = Teclado.getTeclado().leerEntero("Introduzca el numero de objetos del inventario del jugador (1 - " + this.numMaxObjetosInventario + " )");
 		
+		//Cambiar esto o indicarlo en la seleccion de valores
 		if(vidaMaxima < 1) { vidaMaxima = 1; }
 		if(ataque < 1) { ataque = 1; }
 		if(defensa < 1) { defensa = 1; }
@@ -155,15 +171,18 @@ public class GeneradorDeElementos {
 		if(defensa > this.valorDefensaMaxima) { defensa = this.valorDefensaMaxima; }
 		if(numObjetos > this.numMaxObjetosInventario) { numObjetos = this.numMaxObjetosInventario; }
 		
-		ListaInventario inventario = this.generarInventarioUsuario(numObjetos);
 		miJugador = new Jugador(nombre, vidaMaxima, ataque, defensa);
+		Fichero.getFichero().iniciarGuardarJugadorEnFichero(nombre, vidaMaxima, ataque, defensa);
+		ListaInventario inventario = this.generarInventarioUsuario(numObjetos);
 		miJugador.setInventario(inventario);
 		
+		Fichero.getFichero().terminarGuardarJugadorEnFichero();
 		return miJugador;
 	}
 	
 	private ListaInventario generarInventarioUsuario(int pNumObjetos) {
 		ListaInventario inventario = new ListaInventario();
+		Fichero.getFichero().iniciarGuardarInventarioEnFichero();
 		int index = 0;
 		while(index < pNumObjetos) {
 			System.out.println("Objeto " + index+1);
@@ -171,6 +190,7 @@ public class GeneradorDeElementos {
 			index++;
 		}
 		
+		Fichero.getFichero().terminarGuardarInventarioEnFichero();
 		return inventario;
 	}
 	
@@ -191,14 +211,17 @@ public class GeneradorDeElementos {
 			int ataque = Teclado.getTeclado().leerEntero("Introduzca el valor de ataque del objeto (1 - " + this.valorAtaqueObjetoMaximo + " )");
 			String nombre = Teclado.getTeclado().leerString("Introduzca el nombre del objeto de ataque");
 			miObjeto = new ObjetoAtaque(pId, nombre, ataque);
+			Fichero.getFichero().guardarObjetoInventarioEnFichero(nombre, "A", ataque);
 		}else if(tipo == 2) {
 			int defensa = Teclado.getTeclado().leerEntero("Introduzca el valor de defensa del objeto (1 - " + this.valorDefensaObjetoMaxima + " )");
 			String nombre = Teclado.getTeclado().leerString("Introduzca el nombre del objeto de defensa");
 			miObjeto = new ObjetoDefensa(pId, nombre, defensa);
+			Fichero.getFichero().guardarObjetoInventarioEnFichero(nombre, "D", defensa);
 		}else {
 			int curacion = Teclado.getTeclado().leerEntero("Introduzca el valor de curacion del objeto (1 - " + this.valorCuracionObjetoMaximo + " )");
 			String nombre = Teclado.getTeclado().leerString("Introduzca el nombre del objeto de curacion");
 			miObjeto = new ObjetoCuracion(pId, nombre, curacion);
+			Fichero.getFichero().guardarObjetoInventarioEnFichero(nombre, "C", curacion);
 		}
 		
 		return miObjeto;
