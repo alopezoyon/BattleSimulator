@@ -1,5 +1,6 @@
-## BattleSimulator ##
+BattleSimulator 
 ===
+
 **Un simulador de batalla para profundizar en la propgramacion modular y orientacion a objetos**
 
 ### Especificación del juego 
