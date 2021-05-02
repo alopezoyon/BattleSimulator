@@ -15,8 +15,8 @@ En el modo espectador, los equipos contendientes son generados automáticamente 
 2. En segundo lugar se elige de forma aleatoria la acción a realizar: curar a un jugador del mismo equipo o atacar a un jugador del equipo contrario.
 3. En tercer lugar se realiza la acción:
 
-  a) En el caso de curar se busca un jugador aleatorio del mismo equipo que no esté debilitado
-  b) En el caso de atacar se busca el primer jugador más cercano a la posición de ataque que no esté debilitado. La posición de ataque es un contador que se              incrementa cada vez que un jugador ataca a otro del equipo contrario (si la posición de ataque es superior al número de integrantes del equipo contrario, su    valor vuelve a 0)
+  - En el caso de curar se busca un jugador aleatorio del mismo equipo que no esté debilitado
+  - En el caso de atacar se busca el primer jugador más cercano a la posición de ataque que no esté debilitado. La posición de ataque es un contador que se incrementa cada vez que un jugador ataca a otro del equipo contrario (si la posición de ataque es superior al número de integrantes del equipo contrario, su valor vuelve a 0)
   
 4. Si durante el proceso todos los integrantes de algún equipo se debilitan, la victoria será para el equipo contrario.
 5. Si ya se han sucedido el número máximo de rondas, la victoria será para el equipo con más integrantes en pie. Si el número es el mismo se dará un empate
