@@ -18,7 +18,7 @@ En el modo espectador, los equipos contendientes son generados automáticamente 
     - En el caso de atacar se busca el primer jugador más cercano a la posición de ataque que no esté debilitado. La posición de ataque es un contador que se incrementa cada vez que un jugador ataca a otro del equipo contrario (si la posición de ataque es superior al número de integrantes del equipo contrario, su valor vuelve a 0)
   
 4. Si durante el proceso todos los integrantes de algún equipo se debilitan, la victoria será para el equipo contrario.
-5. Si ya se han sucedido el número máximo de rondas, la victoria será para el equipo con más integrantes en pie. Si el número es el mismo se dará un empate
+5. Si ya se han sucedido el número máximo de rondas (100 rondas), la victoria será para el equipo con más integrantes en pie. Si el número es el mismo se dará un empate
 6. Si un jugador que no tiene objetos de curación cura a otro jugador, lo hace con 1 punto de curación (“hierbajo”)
 7. Si un jugador ataca con 5 puntos de ataque a otro jugador que tiene 20 puntos de defensa, el atacado recibirá 1 punto de daño.
 
@@ -27,3 +27,11 @@ En el modo espectador, los equipos contendientes son generados automáticamente 
 En el modo interactivo es el usuario el encargado de tomar las decisiones en todo momento, tanto la generación de equipos como el número de rondas y las acciones a realizar en cada ronda. Este modo de juego es más similar al de un rpg clásico de 2 jugadores (cada uno controlando un equipo diferente) o de 1 jugador (controlando los dos equipos). El concepto de este modo de juego es similar al anterior pero con la introducción de decisiones por teclado.
 
 
+**Generación aleatoria de equipos**
+---
+
+**Cargar equipos desde un fichero**
+---
+
+**Guardar equipos en un fichero**
+---
