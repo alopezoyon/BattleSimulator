@@ -22,6 +22,8 @@ En el modo espectador, los equipos contendientes son generados automáticamente 
 6. Si un jugador que no tiene objetos de curación cura a otro jugador, lo hace con 1 punto de curación (“hierbajo”)
 7. Si un jugador ataca con 5 puntos de ataque a otro jugador que tiene 20 puntos de defensa, el atacado recibirá 1 punto de daño.
 
+<img width="636" alt="Captura de pantalla 2021-05-03 a las 14 13 34" src="https://user-images.githubusercontent.com/44586947/116874527-c1c4eb80-ac19-11eb-98da-a9bbddefd9c9.png">
+
 **Modo interactivo**
 ---
 En el modo interactivo es el usuario el encargado de tomar las decisiones en todo momento, tanto la generación de equipos como el número de rondas y las acciones a realizar en cada ronda. Este modo de juego es más similar al de un rpg clásico de 2 jugadores (cada uno controlando un equipo diferente) o de 1 jugador (controlando los dos equipos). El concepto de este modo de juego es similar al anterior pero con la introducción de decisiones por teclado.
