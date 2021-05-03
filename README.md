@@ -7,7 +7,7 @@ BattleSimulator
 
 Battle Simulator es un juego por consola en el cual dos equipos se enfrentan en una batalla de estilo rpg por rondas. Este juego consta de varios modos de juego: Un modo de juego automático en el que el jugador es un espectador y observa el transcurso de la contienda, y un modo de juego en el que el usuario es el encargado de tomar las decisiones en cada turno así como de crear los equipos. Además, también se implementará la opción de cargar los equipos de la batalla desde un fichero externo y la posibilidad de guardar los equipos actuales en dicho fichero o guardar el desarrollo del juego en otro fichero de texto.
 
-<img width="498" alt="Captura de pantalla 2021-05-03 a las 15 44 49" src="https://user-images.githubusercontent.com/44586947/116884022-8b419d80-ac26-11eb-9d59-28b0cbf8d91c.png">
+<img width="434" alt="Captura de pantalla 2021-05-03 a las 15 46 32" src="https://user-images.githubusercontent.com/44586947/116884213-c512a400-ac26-11eb-992c-3694f85baed0.png">
 
 **Modo espectador**
 ---
