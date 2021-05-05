@@ -1,7 +1,7 @@
 BattleSimulator 
 ===
 
-**Un simulador de batalla para profundizar en la propgramacion modular y orientacion a objetos**
+**Un simulador de batalla para profundizar en la programacion modular y orientacion a objetos**
 
 ### Especificación del juego 
 
@@ -33,9 +33,17 @@ En el modo interactivo es el usuario el encargado de tomar las decisiones en tod
 
 **Generación aleatoria de equipos**
 ---
+Este modo de inicio se encarga de generar a partir de una lista de nombres, dos equipos con sus respectivos jugadores. Además, cada jugador tendrá una cantidad aleatoria de objetos en su inventario, así como los puntos de vida, ataque y defensa. La lista de nombres es la que dará a los equipos y a los jugadores sus valores de forma aleatoria.
+Es el modo de juego más cómodo pero menos personalizable.
 
 **Cargar equipos desde un fichero**
 ---
+Este segundo modo de inicio tiene como función: 
+-Generar un equipo aleatoriamente en el caso de que no hayamos jugado antes al juego. 
+-Cargar el equipo que hayamos creado anteriormente en el modo "Generar equipos nuevos". De esta manera podemos jugar con el equipo que hayamos creado en otras partidas.
+Esta implementación es de gran utilidad ya que podemos recurrir a equipos que ya hemos personalizado.
 
 **Guardar equipos en un fichero**
 ---
+Para poder utilizar el modo de juego "Cargar equipos desde un fichero" hemos de guardar el equipo que hayamos creado. 
+Esto lo haremos en un fichero, al cual debemos acudir a la hora de cargar un equipo.
